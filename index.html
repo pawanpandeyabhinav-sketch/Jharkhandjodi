@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fff7f5"><title>Jharkhand Jodi</title>
+<style>
+:root{--ink:#25212b;--muted:#77717c;--rose:#e34f73;--rose-dark:#c83259;--line:#eee5e8;--paper:#fff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#fff7f5,#fff 60%,#fff0f4);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh;display:grid;place-items:center;padding:22px}.wrap{width:min(100%,430px)}.brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px}.logo{width:44px;height:44px;border-radius:15px;background:#ffe0e7;color:var(--rose-dark);display:grid;place-items:center;font-size:23px}.brand h1{font-size:25px;letter-spacing:-.7px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.card{background:var(--paper);border:1px solid #f2e6e9;border-radius:24px;padding:25px;box-shadow:0 13px 55px #5d29310d}.intro h2{font-size:23px;letter-spacing:-.6px;margin:0 0 5px}.intro p{color:var(--muted);font-size:14px;margin:0 0 22px}label{display:block;font-size:13px;font-weight:650;margin:0 0 7px}input,select{width:100%;height:47px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 13px;font:inherit;color:var(--ink);outline:none;margin-bottom:15px}input:focus,select:focus{border-color:#e88ba1;box-shadow:0 0 0 3px #e34f7314}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.phone{display:flex;gap:8px}.phone span{height:47px;border:1px solid var(--line);border-radius:12px;padding:12px 10px;white-space:nowrap;background:#faf8f9;margin-bottom:15px;font-size:14px}.phone input{min-width:0}button,.pay{width:100%;border:0;border-radius:13px;min-height:49px;padding:12px 16px;background:var(--rose);color:#fff;font-size:15px;font-weight:750;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}button:hover,.pay:hover{background:var(--rose-dark)}button:disabled{opacity:.55;cursor:wait}.hint{font-size:12px;color:var(--muted);margin:13px 0 0;text-align:center}.message{font-size:13px;margin:12px 0 0;color:#a3294b;overflow-wrap:anywhere}.hidden{display:none!important}.notice{border-radius:14px;background:#fff1f4;padding:14px;margin:15px 0}.notice strong{font-size:20px}.success{color:#20734a;background:#eefaf3;border-radius:12px;padding:12px;font-size:14px}.fineprint{color:var(--muted);font-size:11px;text-align:center;margin:17px 4px 0}@media(max-width:380px){.card{padding:19px}.row{gap:8px}.brand h1{font-size:23px}}
+</style></head>
+<body><main class="wrap">
+<header class="brand"><div class="logo" aria-hidden="true"></div><div><h1>Jharkhand Jodi</h1><p>Meet someone from your state</p></div></header>
+<section class="card"><div class="intro"><h2>Create your profile</h2><p></p></div>
+<form id="profileForm">
+<label for="name">Full name</label><input id="name" name="name" autocomplete="name" minlength="2" maxlength="80" placeholder="Enter your name" required>
+<div class="row"><div><label for="age">Age</label><input id="age" name="age" type="number" min="13" max="120" placeholder="13+" required></div><div><label for="gender">Gender</label><select id="gender" name="gender" required><option value="" disabled selected>Select</option><option value="female">Female</option><option value="male">Male</option><option value="other">Other</option></select></div></div>
+<label for="city">City / district in Jharkhand</label><select id="city" name="city" required><option value="" disabled selected>Choose your city or district</option><option>Bokaro</option><option>Chatra</option><option>Deoghar</option><option>Dhanbad</option><option>Dumka</option><option>East Singhbhum</option><option>Garhwa</option><option>Giridih</option><option>Godda</option><option>Gumla</option><option>Hazaribagh</option><option>Jamtara</option><option>Khunti</option><option>Koderma</option><option>Latehar</option><option>Lohardaga</option><option>Pakur</option><option>Palamu</option><option>Ramgarh</option><option>Ranchi</option><option>Sahibganj</option><option>Seraikela-Kharsawan</option><option>Simdega</option><option>West Singhbhum</option></select>
+<label for="phone">Mobile number</label><div class="phone"><span>+91</span><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[6-9][0-9]{9}" minlength="10" maxlength="10" placeholder="10-digit mobile number" required></div>
+<button id="saveBtn" type="submit">Create profile</button><p class="hint"></p></form>
+<section id="result" class="hidden" aria-live="polite"></section><p id="message" class="message" role="status"></p></section>
+<p class="fineprint">Jharkhand Jodi is for adults aged 13 and above. Never share private information with people you do not know.</p></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+(() => {
+const SUPABASE_URL='https://amgqsqoaxmfjgmkytjcu.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_3bFs7qZJeZYHYahQDEZT6g_sntT8kNa';
+const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id),form=$('profileForm'),message=$('message'),result=$('result'),button=$('saveBtn');
+form.addEventListener('submit',async e=>{
+ e.preventDefault();message.textContent='';result.classList.add('hidden');
+ const age=Number($('age').value);
+ if(!Number.isInteger(age)||age<13||age>120){message.textContent='Jharkhand Jodi is available only to people aged 13 or older.';return;}
+ button.disabled=true;button.textContent='Saving profile…';
+ try{
+  const profile={full_name:$('name').value.trim(),age,gender:$('gender').value,city:$('city').value,phone:'+91'+$('phone').value.trim()};
+  const {error}=await supabase.from('jharkhand_jodi_guest_profiles').insert({full_name:profile.full_name,age:profile.age,gender:profile.gender,city:profile.city,phone:profile.phone});
+  if(error)throw error;
+  form.classList.add('hidden');result.classList.remove('hidden');
+  if(profile.gender==='male'){
+   const paymentLink='upi://pay?pa=sabita12345pandey172@oksbi&pn=Sabita&am=100&cu=INR&tn=Jharkhand%20Jodi%20Monthly%20Subscription';
+   result.innerHTML='<div class="notice"><strong>Profile saved!</strong><p style="margin:6px 0 14px;color:#6f5962"> 100/Month  unlimited swipes </p><a class="pay" id="payNow" href="'+paymentLink+'">Pay 100 with UPI</a><p class="hint">If your UPI app does not open automatically, tap the button above. Payment is not verified automatically by this page.</p></div>';
+   // Attempt to open a UPI app automatically; the visible button is the fallback.
+   window.setTimeout(()=>{ window.location.href=paymentLink; },350);
+  }else{
+   result.innerHTML='<div class="success"><strong>Profile saved!</strong><br>Your Jharkhand Jodi profile has been created successfully.</div>';
+  }
+ }catch(err){message.textContent=(err.message||'Could not save your profile.')+' Please check your internet connection and try again.';}
+ finally{button.disabled=false;button.textContent='Create profile';}
+});
+})();
+</script></body></html>
